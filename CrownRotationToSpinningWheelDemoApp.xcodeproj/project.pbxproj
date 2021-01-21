@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		84D9A8D525B999FA0026F17D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84D9A8D425B999FA0026F17D /* Preview Assets.xcassets */; };
 		84D9A8E025B999FA0026F17D /* CrownRotationToSpinningWheelDemoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D9A8DF25B999FA0026F17D /* CrownRotationToSpinningWheelDemoAppTests.swift */; };
 		84D9A8EB25B999FB0026F17D /* CrownRotationToSpinningWheelDemoAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D9A8EA25B999FB0026F17D /* CrownRotationToSpinningWheelDemoAppUITests.swift */; };
+		84D9A8FD25B99BDE0026F17D /* CrownRotationToSpinningWheel in Frameworks */ = {isa = PBXBuildFile; productRef = 84D9A8FC25B99BDE0026F17D /* CrownRotationToSpinningWheel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		84D9A8E625B999FB0026F17D /* CrownRotationToSpinningWheelDemoAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrownRotationToSpinningWheelDemoAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84D9A8EA25B999FB0026F17D /* CrownRotationToSpinningWheelDemoAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrownRotationToSpinningWheelDemoAppUITests.swift; sourceTree = "<group>"; };
 		84D9A8EC25B999FB0026F17D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84D9A90125B99CCE0026F17D /* CrownRotationToSpinningWheel */ = {isa = PBXFileReference; lastKnownFileType = folder; name = CrownRotationToSpinningWheel; path = ../CrownRotationToSpinningWheel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84D9A8FD25B99BDE0026F17D /* CrownRotationToSpinningWheel in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +78,7 @@
 		84D9A8C125B999F70026F17D = {
 			isa = PBXGroup;
 			children = (
+				84D9A90125B99CCE0026F17D /* CrownRotationToSpinningWheel */,
 				84D9A8CC25B999F70026F17D /* CrownRotationToSpinningWheelDemoApp */,
 				84D9A8DE25B999FA0026F17D /* CrownRotationToSpinningWheelDemoAppTests */,
 				84D9A8E925B999FB0026F17D /* CrownRotationToSpinningWheelDemoAppUITests */,
@@ -146,6 +150,9 @@
 			dependencies = (
 			);
 			name = CrownRotationToSpinningWheelDemoApp;
+			packageProductDependencies = (
+				84D9A8FC25B99BDE0026F17D /* CrownRotationToSpinningWheel */,
+			);
 			productName = CrownRotationToSpinningWheelDemoApp;
 			productReference = 84D9A8CA25B999F70026F17D /* CrownRotationToSpinningWheelDemoApp.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +224,9 @@
 				Base,
 			);
 			mainGroup = 84D9A8C125B999F70026F17D;
+			packageReferences = (
+				84D9A8FB25B99BDE0026F17D /* XCRemoteSwiftPackageReference "CrownRotationToSpinningWheel" */,
+			);
 			productRefGroup = 84D9A8CB25B999F70026F17D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -580,6 +590,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		84D9A8FB25B99BDE0026F17D /* XCRemoteSwiftPackageReference "CrownRotationToSpinningWheel" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jhrcook/CrownRotationToSpinningWheel";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		84D9A8FC25B99BDE0026F17D /* CrownRotationToSpinningWheel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84D9A8FB25B99BDE0026F17D /* XCRemoteSwiftPackageReference "CrownRotationToSpinningWheel" */;
+			productName = CrownRotationToSpinningWheel;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 84D9A8C225B999F70026F17D /* Project object */;
 }
