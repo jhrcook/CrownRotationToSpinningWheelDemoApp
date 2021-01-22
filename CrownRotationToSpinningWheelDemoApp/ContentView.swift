@@ -5,31 +5,57 @@
 //  Created by Joshua on 1/21/21.
 //
 
+import CrownRotationToSpinningWheel
 import SwiftUI
 
 struct ContentView: View {
     @State private var gestureValue: CGSize = .zero
-    @State private var damping: Double = 0.0
+    @State private var crownRotation: Double = 0.0
+    @State private var damping: Double = 0.1
+
+    @StateObject var spinningWheel = SpinningWheel(damping: 0.07, publishingFrequency: 0.1, crownVelocityMemory: 1.0)
+
+    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
 
     var body: some View {
         let drag = DragGesture()
             .onChanged { value in
-                self.gestureValue = value.translation
+                gestureValue = value.translation
+                crownRotation = Double(value.translation.width)
+                spinningWheel.crownInput(angle: crownRotation * 200, at: Date())
             }
             .onEnded { _ in
                 self.gestureValue = .zero
             }
 
         return VStack {
-            LinearGradient(gradient: Gradient(colors: [Color.red, Color.blue]), startPoint: .leading, endPoint: .trailing)
-                .clipShape(Circle())
-                .padding(5)
-                .rotationEffect(.degrees(Double(gestureValue.width)))
-                .animation(.interactiveSpring())
+            ZStack {
+                LinearGradient(gradient: Gradient(colors: [Color.red, Color.blue]), startPoint: .leading, endPoint: .trailing)
+                    .clipShape(Circle())
+                    .padding(5)
+                    .onReceive(timer) { _ in
+                        spinningWheel.update()
+                    }
+                    .rotationEffect(.degrees(Double(spinningWheel.wheelRotation)))
+                    .animation(.interactiveSpring())
+
+                HStack {
+                    VStack {
+                        Spacer()
+                        Text("crown rotation: \(crownRotation, specifier: "%.2f")").font(.body).opacity(0.7)
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal)
+            }
 
             ZStack {
                 RoundedRectangle(cornerRadius: 25.0, style: .continuous)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.green)
+                    .opacity(0.1)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25.0, style: .continuous).stroke(Color.green, lineWidth: 2)
+                    )
                     .gesture(drag)
 
                 VStack {
@@ -39,7 +65,7 @@ struct ContentView: View {
                         .padding(3)
                 }
             }
-            .padding()
+            .padding(10)
 
             HStack {
                 Image(systemName: "minus")
@@ -47,7 +73,7 @@ struct ContentView: View {
                 Image(systemName: "plus")
             }
             .foregroundColor(.green)
-            .padding()
+            .padding(10)
             .overlay(
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .stroke(lineWidth: 2.0)
@@ -57,7 +83,7 @@ struct ContentView: View {
 
             Text("Damping: \(damping, specifier: "%.2f")")
                 .padding(.top, 0)
-                .padding(.bottom)
+                .padding(.bottom, 8)
         }
     }
 }
