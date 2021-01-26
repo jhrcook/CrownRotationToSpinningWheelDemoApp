@@ -11,18 +11,19 @@ import SwiftUI
 struct ContentView: View {
     @State private var gestureValue: CGSize = .zero
     @State private var crownRotation: Double = 0.0
-    @State private var damping: Double = 0.1
+    @State var damping: Double = 0.1
 
-    @StateObject var spinningWheel = SpinningWheel(damping: 0.07, publishingFrequency: 0.1, crownVelocityMemory: 1.0)
+    @StateObject var spinningWheel = SpinningWheel(damping: 0.07, crownVelocityMemory: 2.0)
 
-    let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
+    @State var springStiffness: Double = 1.0
+    @State var springDamping: Double = 1.0
 
     var body: some View {
         let drag = DragGesture()
             .onChanged { value in
                 gestureValue = value.translation
                 crownRotation = Double(value.translation.width)
-                spinningWheel.crownInput(angle: crownRotation * 200, at: Date())
+                spinningWheel.crownInput(angle: crownRotation, at: Date())
             }
             .onEnded { _ in
                 self.gestureValue = .zero
@@ -33,11 +34,9 @@ struct ContentView: View {
                 LinearGradient(gradient: Gradient(colors: [Color.red, Color.blue]), startPoint: .leading, endPoint: .trailing)
                     .clipShape(Circle())
                     .padding(5)
-                    .onReceive(timer) { _ in
-                        spinningWheel.update()
-                    }
-                    .rotationEffect(.degrees(Double(spinningWheel.wheelRotation)))
-                    .animation(.interactiveSpring())
+                    //  .rotationEffect(.degrees(Double(gestureValue.width)))
+                    .rotationEffect(.degrees(spinningWheel.wheelRotation))
+                    .animation(.interpolatingSpring(stiffness: 5, damping: 1))
 
                 HStack {
                     VStack {
