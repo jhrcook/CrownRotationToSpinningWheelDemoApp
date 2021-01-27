@@ -7,4 +7,4 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![SwiftFormat](https://img.shields.io/badge/SwfitFormat-enabled-A166E6)](https://github.com/nicklockwood/SwiftFormat)
 
-<img src="assets/CrownRotationToSpinningWheelDemoApp-demo.gif", width="400">
+<img src="assets/CrownRotationToSpinningWheelDemoApp-demo.gif" width="400" />
