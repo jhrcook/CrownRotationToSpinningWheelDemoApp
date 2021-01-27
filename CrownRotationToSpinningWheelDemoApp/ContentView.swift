@@ -31,17 +31,15 @@ struct ContentView: View {
 
         return VStack {
             ZStack {
-                LinearGradient(gradient: Gradient(colors: [Color.red, Color.blue]), startPoint: .leading, endPoint: .trailing)
-                    .clipShape(Circle())
-                    .padding(5)
+                GradientCircle()
                     //  .rotationEffect(.degrees(Double(gestureValue.width)))
                     .rotationEffect(.degrees(spinningWheel.wheelRotation))
                     .animation(.interpolatingSpring(stiffness: 5, damping: 1))
 
                 HStack {
                     VStack {
+                        Text("crown rotation:\n\(crownRotation, specifier: "%.2f")").font(.footnote).opacity(0.7)
                         Spacer()
-                        Text("crown rotation: \(crownRotation, specifier: "%.2f")").font(.body).opacity(0.7)
                     }
                     Spacer()
                 }
@@ -49,18 +47,13 @@ struct ContentView: View {
             }
 
             ZStack {
-                RoundedRectangle(cornerRadius: 25.0, style: .continuous)
-                    .foregroundColor(.green)
-                    .opacity(0.1)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 25.0, style: .continuous).stroke(Color.green, lineWidth: 2)
-                    )
+                GreenRoundedRect()
                     .gesture(drag)
 
                 VStack {
                     Spacer()
                     Text("x: \(gestureValue.width, specifier: "%.2f"), y: \(gestureValue.height, specifier: "%.2f")")
-                        .font(.caption)
+                        .font(.footnote)
                         .padding(3)
                 }
             }
@@ -71,19 +64,66 @@ struct ContentView: View {
                 Slider(value: $damping, in: 0 ... 1, step: 0.01).accentColor(.green)
                 Image(systemName: "plus")
             }
+            .greenSliderOverlay()
+
+            Text("Damping: \(damping, specifier: "%.2f")")
+                .font(.footnote)
+                .padding(.bottom, 5)
+
+            VStack {
+                Stepper(value: $springStiffness) {
+                    Text("Spring stiffness")
+                }.accentColor(.green)
+
+                Stepper(value: $springDamping) {
+                    Text("Spring damping")
+                }.accentColor(.green)
+            }
+            .greenSliderOverlay()
+        }
+    }
+}
+
+struct GradientCircle: View {
+    var body: some View {
+        LinearGradient(gradient: Gradient(colors: [Color.red, Color.blue]), startPoint: .leading, endPoint: .trailing)
+            .clipShape(Circle())
+            .padding(5)
+    }
+}
+
+struct GreenRoundedRect: View {
+    var body: some View {
+        RoundedRectangle(cornerRadius: 10, style: .continuous)
             .foregroundColor(.green)
-            .padding(10)
+            .opacity(0.1)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10, style: .continuous).stroke(Color.green, lineWidth: 2)
+            )
+    }
+}
+
+struct GreenSliderOverlay: ViewModifier {
+    var insidePadding: CGFloat = 10
+    var outsidePadding: CGFloat = 10
+
+    func body(content: Content) -> some View {
+        content
+            .foregroundColor(.green)
+            .padding(insidePadding)
             .overlay(
                 RoundedRectangle(cornerRadius: 10, style: .continuous)
                     .stroke(lineWidth: 2.0)
                     .foregroundColor(.green)
             )
-            .padding()
+            .padding(.horizontal, outsidePadding)
+            .padding(.top, outsidePadding / 2)
+    }
+}
 
-            Text("Damping: \(damping, specifier: "%.2f")")
-                .padding(.top, 0)
-                .padding(.bottom, 8)
-        }
+extension View {
+    func greenSliderOverlay() -> some View {
+        modifier(GreenSliderOverlay())
     }
 }
 
