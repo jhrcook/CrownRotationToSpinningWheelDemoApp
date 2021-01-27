@@ -15,15 +15,15 @@ struct ContentView: View {
 
     @StateObject var spinningWheel = SpinningWheel(damping: 0.07, crownVelocityMemory: 2.0)
 
-    @State var springStiffness: Double = 1.0
-    @State var springDamping: Double = 1.0
+    @State var springStiffness: Double = 5.0
+    @State var springDamping: Double = 5.0
 
     var body: some View {
         let drag = DragGesture()
             .onChanged { value in
                 gestureValue = value.translation
                 crownRotation = Double(value.translation.width)
-                spinningWheel.crownInput(angle: crownRotation, at: Date())
+                spinningWheel.crownInput(angle: crownRotation / 3, at: Date())
             }
             .onEnded { _ in
                 self.gestureValue = .zero
@@ -34,7 +34,7 @@ struct ContentView: View {
                 GradientCircle()
                     //  .rotationEffect(.degrees(Double(gestureValue.width)))
                     .rotationEffect(.degrees(spinningWheel.wheelRotation))
-                    .animation(.interpolatingSpring(stiffness: 5, damping: 1))
+                    .animation(.interpolatingSpring(stiffness: springStiffness, damping: springDamping))
 
                 HStack {
                     VStack {
@@ -71,12 +71,12 @@ struct ContentView: View {
                 .padding(.bottom, 5)
 
             VStack {
-                Stepper(value: $springStiffness) {
-                    Text("Spring stiffness")
+                Stepper(value: $springStiffness, in: 0 ... 10, step: 0.5, onEditingChanged: { _ in }) {
+                    Text("Spring stiffness: \(springStiffness, specifier: "%.2f")")
                 }.accentColor(.green)
 
-                Stepper(value: $springDamping) {
-                    Text("Spring damping")
+                Stepper(value: $springDamping, in: 0 ... 10, step: 0.5, onEditingChanged: { _ in }) {
+                    Text("Spring damping: \(springDamping, specifier: "%.2f")")
                 }.accentColor(.green)
             }
             .greenSliderOverlay()
